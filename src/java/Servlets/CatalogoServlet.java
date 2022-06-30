@@ -51,7 +51,9 @@ public class CatalogoServlet extends HttpServlet {
             
             out.println("width: 900px;");
             out.println("margin: auto;");
-            out.println("}");          // note trailing brace for h1 style
+            out.println("}");
+            out.println("btn{");
+            out.println("}");// note trailing brace for h1 style
   // add styles for other elements here using similar structure
   // note that separate lines are used for clarity -
   // all of the above could be one println
