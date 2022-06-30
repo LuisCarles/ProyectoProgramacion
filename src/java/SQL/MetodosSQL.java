@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package SQL;
+import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.Date;
 import java.sql.Connection;
@@ -15,10 +16,54 @@ import java.util.Base64;
  *
  * @author Usuario
  */
+
 public class MetodosSQL {
     private Connection conexion;
     private PreparedStatement sentenciaPreparada;
     private ResultSet resultado;
+    private int tamano = tamanoCatalogo()+1;
+    
+    public boolean registrarProducto(InputStream is, String nombre, double precio){
+         boolean registro = false;
+      try {
+           
+            conexion = Conexion.conectar();
+            String consulta = "INSERT INTO catagolo (id,nombre,fecha,precio,imagen) VALUES (?,?,?,?,?)";
+            sentenciaPreparada = conexion.prepareStatement(consulta);
+           System.out.println("HOLAAAAAAAAAAAAA"+ precio);
+            sentenciaPreparada.setInt(1, tamano);
+            sentenciaPreparada.setString(2, nombre);
+             sentenciaPreparada.setDate(3, java.sql.Date.valueOf(java.time.LocalDate.now()));
+            sentenciaPreparada.setDouble(4, (double) precio);
+           
+            sentenciaPreparada.setBinaryStream(5, is);
+            
+           
+
+            int resultadoInsercion = sentenciaPreparada.executeUpdate();
+
+            if (resultadoInsercion > 0) {
+                registro = true; 
+                System.out.println("Se hizo el alta del producto");
+            } else {
+                registro = false; 
+                System.out.println("NO se hizo el alta del producto");
+            }
+
+            conexion.close();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e);
+        } finally {
+            try {
+                conexion.close();
+            } catch (SQLException e) {
+                System.out.println("Error: " + e);
+            }
+        }
+
+        System.out.println("Valor del registro: " + registro);
+        return registro;
+    }
     
     public double dineroUsuario(String id){
         double dinero = 0;
@@ -217,7 +262,7 @@ public class MetodosSQL {
         
         String imgString;
         imgString = Base64.getEncoder().encodeToString(bytes);
-        System.out.println(imgString + " hi");
+        System.out.println(bytes + " blooob");
         return imgString;
     
     }

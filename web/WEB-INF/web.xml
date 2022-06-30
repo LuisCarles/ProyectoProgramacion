@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="4.0" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd">
+    <context-param>
+        <description>Location to store uploaded file</description>
+        <param-name>file-upload</param-name>
+        <param-value>
+         c:\apache-tomcat-5.5.29\webapps\data\
+      </param-value>
+    </context-param>
     <servlet>
         <servlet-name>ServletTest</servlet-name>
         <servlet-class>Servlets.ServletTest</servlet-class>
@@ -12,6 +19,14 @@
         <servlet-name>Compra</servlet-name>
         <servlet-class>Servlets.Compra</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>VentaServlet</servlet-name>
+        <servlet-class>Servlets.VentaServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Venta</servlet-name>
+        <servlet-class>Servlets.Venta</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ServletTest</servlet-name>
         <url-pattern>/ServletTest</url-pattern>
@@ -23,6 +38,14 @@
     <servlet-mapping>
         <servlet-name>Compra</servlet-name>
         <url-pattern>/Compra</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VentaServlet</servlet-name>
+        <url-pattern>/VentaServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Venta</servlet-name>
+        <url-pattern>/Venta</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
