@@ -86,7 +86,13 @@ public class Compra extends HttpServlet {
              out.println("<form action = 'CatalogoServlet'>");
              out.println("Fue exitosa :D, ahora tu saldo es de: ");
              out.println("<input type ='submit' value = 'Regresar al catalogo' name = 'btnRegresar'>" );
-            
+              out.println("<style>"); 
+               out.println("input{");
+            out.println(" background: plum;");
+            out.println("border: 1px");
+           
+            out.println("}");
+               out.println("</style>"); 
              out.println("</form> ");
             out.println("</tbody> </th> </tr>");
            

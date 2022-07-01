@@ -52,7 +52,13 @@ public class VentaServlet extends HttpServlet {
 "                            \n" +
 "                            <tr>\n");
             out.println("<form action='Venta' method = 'post' enctype = \"multipart/form-data\" >");
-            
+              out.println("<style>"); 
+               out.println("input{");
+            out.println(" background: plum;");
+            out.println("border: 1px");
+           
+            out.println("}");
+               out.println("</style>"); 
             out.println("Nombre:");
             out.println("<input type ='text' name='nombreVenta' required>" );
             out.println("<br>Precio:");
