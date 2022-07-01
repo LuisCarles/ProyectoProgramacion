@@ -63,6 +63,7 @@ public class CatalogoServlet extends HttpServlet {
   // all of the above could be one println
             out.println("</style>"); 
             out.println("</head>");
+            out.println("<link href=\"Estilos.css\" rel=\"stylesheet\" type=\"text/css\"/>");
             out.println("<body bgcolor=\"FFF0C9\">");
             
            

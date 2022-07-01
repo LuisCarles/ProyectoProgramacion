@@ -37,6 +37,7 @@ public class VentaServlet extends HttpServlet {
             out.println("<head>");
             out.println("<title>Vender un producto</title>");            
             out.println("</head>");
+            out.println("<link href=\"Estilos.css\" rel=\"stylesheet\" type=\"text/css\"/>");
             out.println("<body bgcolor=\"FFF0C9\">");
             out.println("<br><table cellpadding='10' cellspacing='10' border style=\"background: rgba(255, 255, 255, 0.9); border: 1px solid rgba(100, 200, 0, 0.3);\">");
             out.println("<tbody style=\"background: rgba(255, 255, 255, 0.9); border: 1px solid rgba(100, 200, 0, 0.3);\">");
