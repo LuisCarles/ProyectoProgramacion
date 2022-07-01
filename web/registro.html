@@ -1,0 +1,86 @@
+<html>
+    <head>
+        <title>TODO supply a title</title>
+         <link rel="stylesheet" href="css/registro.css" type="text/css" media="all">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+
+    <body bgcolor="FFF0C9">
+
+        <table border="0" align="center" WIDTH="500" >
+            <tbody style="background: rgba(255, 255, 255, 0.9); border: 1px solid rgba(100, 200, 0, 0.3);">
+                <tr>
+                    <td align="center">
+                        <hr width=30% size="2" color="black">
+                        <h1>Registrate</h1>
+                        
+                        <hr width=30% size="2" color="black">
+
+                        
+
+                        <table RULES="none">
+                            
+                            <tr>
+                                <th> <form action="Registro" >
+
+                                        <fieldset>
+                                            <legend><strong>Información personal</strong></legend>
+                                            Nombre: <input type="text" name="nombreRegistro"  value="" required><br>
+                                            Apellidos: <input type="text" name="apellidosRegistro" value="" required=""><br>
+                                            <br>
+                                             <label class="avisoContrasena" id="avisoContrasena"> ------- </label><br>
+                                             <br>
+                                            Contraseña: <input type="password" id ="passwordRegistro" name="passwordRegistro" required onkeyup="coincidirContrasena()" ><br>
+                                           
+                                            Repita su contraseña: <input type="password" id ="passwordRepRegistro" name="passwordRepRegistro" required onkeyup="coincidirContrasena()"><br>
+                                            Tu dirección de correo: <input type="email" name="correoRegistro" required ><br>
+                                            
+                                        </fieldset>
+                                        <br>
+                                        <input type="submit" required value="Registrar" id ="btnRegistrar" disabled="" align="center">
+                                        <br>
+                                    </form> </th>
+
+                            
+
+                            </tr>
+                            
+                            
+
+                        </table>
+                        
+                </tr>
+            </tbody>
+        </table>
+
+<script> function coincidirContrasena() {
+
+    var txtContrasena = document.getElementById("passwordRegistro");
+    var txtRepetirContrasena = document.getElementById("passwordRepRegistro");
+    var avisoContrasena = document.getElementById("avisoContrasena");
+    var btnEnviarDatos = document.getElementById("btnRegistrar");
+
+   btnEnviarDatos.disabled = false; //Boton en desactivado o apagado
+
+    if (txtContrasena.value.length === 0 || txtRepetirContrasena.value.length === 0) {
+        avisoContrasena.innerHTML = "Ninguna de las contraseñas pueden quedar vacias";
+        avisoContrasena.style.color = "blue";
+        btnEnviarDatos.disabled = true;
+
+    } else if (txtContrasena.value !== txtRepetirContrasena.value) {
+        avisoContrasena.innerHTML = "Contraseñas son erroneas por que no coinciden";
+        avisoContrasena.style.color = "red";
+        btnEnviarDatos.disabled = true;
+
+    } else {
+        avisoContrasena.innerHTML = "Las contraseñas coinciden";
+        avisoContrasena.style.color = "green";
+        btnEnviarDatos.disabled = false;
+    }
+
+
+} </script>
+    </body>
+     
+</html>

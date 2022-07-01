@@ -92,11 +92,21 @@ public class Venta extends HttpServlet {
             out.println("<head>");
             out.println("<title>Vender un producto</title>");            
             out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Sube tu venta</h1>");
+            out.println("<body bgcolor=\"FFF0C9\">");
+            out.println("<tr>\n" +
+"                    <td align=\"center\">\n" +
+"                        <hr width=30% size=\"2\" color=\"black\">\n" +
+"                        <h1 align=\"center\" >Tu venta</h1>\n" +
+"                        <hr width=30% size=\"2\" color=\"black\">\n" +
+"\n" +
+"                        \n" +
+"\n" +
+"                        <table RULES=\"none\">\n" +
+"                            \n" +
+"                            <tr>\n");
             out.println("<form action='CatalogoServlet'>");
         String fileName = filePart.getSubmittedFileName();
-        out.print("<br><br> file name: "+ fileName);
+        
         OutputStream os = null;
         InputStream is = null;
         
@@ -121,8 +131,10 @@ public class Venta extends HttpServlet {
         }catch(FileNotFoundException e){
             out.println(e + "LOOOOOOOOOOOOOOOOOL");
         }
-        out.println("<input type = 'submit' value = 'Regresar al catalogo'> ");
-        out.println("</form>");
+        out.println("<input type = 'submit' value = 'Regresar al catalogo' name = 'btnRegresar'> ");
+        out.println("</form> ");
+        out.println("</tbody> </th> </tr>");
+        
         out.println("</body>");
         out.println("</html>");
         

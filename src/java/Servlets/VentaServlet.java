@@ -37,9 +37,21 @@ public class VentaServlet extends HttpServlet {
             out.println("<head>");
             out.println("<title>Vender un producto</title>");            
             out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Sube tu venta</h1>");
-            out.println("<form action='Venta' method = 'post' enctype = \"multipart/form-data\">");
+            out.println("<body bgcolor=\"FFF0C9\">");
+            out.println("<br><table cellpadding='10' cellspacing='10' border style=\"background: rgba(255, 255, 255, 0.9); border: 1px solid rgba(100, 200, 0, 0.3);\">");
+            out.println("<tbody style=\"background: rgba(255, 255, 255, 0.9); border: 1px solid rgba(100, 200, 0, 0.3);\">");
+            out.println("<tr>\n" +
+"                    <td align=\"center\">\n" +
+"                        <h1>Sube tu producto</h1>\n" +
+"                        <hr width=30% size=\"2\" color=\"black\">\n" +
+"\n" +
+"                        \n" +
+"\n" +
+"                        <table RULES=\"none\">\n" +
+"                            \n" +
+"                            <tr>\n");
+            out.println("<form action='Venta' method = 'post' enctype = \"multipart/form-data\" >");
+            
             out.println("Nombre:");
             out.println("<input type ='text' name='nombreVenta' required>" );
             out.println("<br>Precio:");
@@ -47,8 +59,10 @@ public class VentaServlet extends HttpServlet {
             out.println("<br>Ingresa la imagen de tu producto:");
             out.println("<br><input type ='file' name='file' accept=\"image/png, image/jpeg\" size = \"50\" required>" );
             out.println("<br><input type ='submit' name='submitVenta' required>" );
-            out.println("</form>");
+            out.println("</tbody>");
+            out.println("</form> </th> </tr>");
             out.println("</body>");
+            
             out.println("</html>");
         }
     }

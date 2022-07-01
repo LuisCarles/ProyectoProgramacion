@@ -38,9 +38,13 @@ public class CatalogoServlet extends HttpServlet {
             
             
             int count = metodos.tamanoCatalogo();
+            String txtUsuario = request.getParameter("correoLogin");
+            String txtContrasena = request.getParameter("passwordLogin");
             
-            
-            /* TODO output your page here. You may use following sample code. */
+            String btnRegresar = request.getParameter("btnRegresar");
+             boolean iniciarSesion = metodos.buscarUsuarioInicioSesion(txtUsuario, txtContrasena);
+            if(iniciarSesion == true || btnRegresar != null){ //EL usuario puede accesar por que esta registrado
+                /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
@@ -59,14 +63,28 @@ public class CatalogoServlet extends HttpServlet {
   // all of the above could be one println
             out.println("</style>"); 
             out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Catàlogo</h1>");
-            out.println("<form action='VentaServlet'>");
-            out.println("<input type ='Submit' value='Subir un producto'>");
+            out.println("<body bgcolor=\"FFF0C9\">");
+            
+           
+          
+            out.println("<br><table cellpadding='10' cellspacing='10' border style=\"background: rgba(255, 255, 255, 0.9); border: 1px solid rgba(100, 200, 0, 0.3);\">");
+            out.println("<tbody style=\"background: rgba(255, 255, 255, 0.9); border: 1px solid rgba(100, 200, 0, 0.3);\">");
+            out.println("<tr>\n" +
+"                    <td align=\"center\">\n" +
+"                        <hr width=30% size=\"2\" color=\"black\">\n" +
+"                        <h1>Catàlogo</h1>\n" +
+"                        <hr width=30% size=\"2\" color=\"black\">\n" +
+"\n" +
+"                        \n" +
+"\n" +
+"                        <table RULES=\"none\">\n" +
+"                            \n" +
+"                            <tr>\n");
+            out.println("<form action = 'VentaServlet'>");
+            out.println("<input type ='Submit' value='Subir un producto'> <td align=\"right\"> ");
             out.println("</form>");
-            out.println("<br><table cellpadding='10' cellspacing='10' border>");
-            out.println("<tbody>");
             out.println("<form action='Compra'>");
+            
             
             
             for(int i=1; i<=count; i++){
@@ -81,7 +99,15 @@ public class CatalogoServlet extends HttpServlet {
             
             
             out.println("</tbody>");
-            out.println("</form>");
+            out.println("</form> </th> </tr>");
+                
+                
+            }else{
+                out.println("<h1>Datos Incorrectos, <a href =\"index.html\">verifica tus credenciales</a>  o <a href =\"registro.html\">registrate</a> en el sistema </h1>");
+                out.println("");
+            }
+            
+            
         }
     }
 

@@ -27,6 +27,10 @@
         <servlet-name>Venta</servlet-name>
         <servlet-class>Servlets.Venta</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Registro</servlet-name>
+        <servlet-class>Servlets.Registro</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ServletTest</servlet-name>
         <url-pattern>/ServletTest</url-pattern>
@@ -46,6 +50,10 @@
     <servlet-mapping>
         <servlet-name>Venta</servlet-name>
         <url-pattern>/Venta</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Registro</servlet-name>
+        <url-pattern>/Registro</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

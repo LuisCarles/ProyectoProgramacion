@@ -6,7 +6,6 @@
 package Servlets;
 
 import SQL.MetodosSQL;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -18,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Usuario
  */
-public class Compra extends HttpServlet {
+public class Registro extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,45 +34,21 @@ public class Compra extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             MetodosSQL metodos = new MetodosSQL();
+       
+            String txtNombre = request.getParameter("nombreRegistro");
+            String txtApellidos = request.getParameter("apellidosRegistro");
+            String txtContrasena = request.getParameter("passwordRegistro");
+            String txtCorreo = request.getParameter("correoRegistro");
             
-            String txtUsuario = request.getParameter("txtUsuario");
-            
-            
-            int count = metodos.tamanoCatalogo();
-            String nombre = null;
-            double precio = 0;
+             out.println("<!DOCTYPE html>");
+             out.println("<html>");
+             out.println("<body bgcolor = \"FFF0C9\">");
         
-            boolean compra = false;
-            
-            for(int i=1; i<=count; i++){
-                String btnComprar = request.getParameter("btnComprar"+i);
-                if (btnComprar != null){
-                    nombre = metodos.nombreCatalogo(String.valueOf(i));
-                    precio = metodos.precio(String.valueOf(i));
-                    
-                    
-                    metodos.registrarTransaccion(metodos.buscarUsuarioID(txtUsuario), String.valueOf(i));
-                    compra = true;
-                    
-                    
-            
-                    
-                }
-            }
-           
-            
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Comprando"+nombre+"</title>");            
-            out.println("</head>");
-            out.println("<body bgcolor = \"FFF0C9\">");
-        
-            out.println("<br><table cellpadding='10' cellspacing='10' border style=\"background: rgba(255, 255, 255, 0.9); border: 1px solid rgba(100, 200, 0, 0.3);\">");
+             out.println("<br><table cellpadding='10' cellspacing='10' border style=\"background: rgba(255, 255, 255, 0.9); border: 1px solid rgba(100, 200, 0, 0.3);\">");
             out.println("<tbody style=\"background: rgba(255, 255, 255, 0.9); border: 1px solid rgba(100, 200, 0, 0.3);\">");
             out.println("<tr>\n" +
 "                    <td align=\"center\">\n" +
-"                        <h1>Tu Compra de "+nombre+ "...</h1>\n" +
+"                        <h1>Sube tu producto</h1>\n" +
 "                        <hr width=30% size=\"2\" color=\"black\">\n" +
 "\n" +
 "                        \n" +
@@ -81,17 +56,35 @@ public class Compra extends HttpServlet {
 "                        <table RULES=\"none\">\n" +
 "                            \n" +
 "                            <tr>\n");
-             out.println(txtUsuario);
-           
-             out.println("<form action = 'CatalogoServlet'>");
-             out.println("Fue exitosa :D, ahora tu saldo es de: ");
-             out.println("<input type ='submit' value = 'Regresar al catalogo' name = 'btnRegresar'>" );
             
-             out.println("</form> ");
-            out.println("</tbody> </th> </tr>");
+             
+             boolean usuarioRepetido = metodos.buscarUsuarioRepetido(txtCorreo);
+
+             if (usuarioRepetido == true) { //EL usuario ya esta registrado en la BD
+             out.println("<h1>El correo ya esta registrado<h1>");
+             out.println("volver a <a href =\"registro.html\">registro </a> ");
+            
+             } else {
+            
+                 boolean registro = metodos.registrarUsuario(txtNombre, txtApellidos, txtContrasena, txtCorreo);
+                 if (registro == true) {//El usuario se ha registrado
+                out.println("<h1>El usuario se ha registrado con exito<h1>");
+                out.println("Ahora <a href =\"index.html\">inicia sesion </a> ");
+                
+            } else {
+                out.println("El usuario no se ha registrado");
+                out.println("volver a <a href =\"registro.html\">registro </a> ");
+                
+            }
+            System.out.println("El valor de registro en SERVLET es: " + registro);
+            
+        }
+
+        out.println("</tbody>");
+        out.println("</th> </tr>");
+        out.println("</body>");
+        out.println("</html>");
            
-            out.println("</body>");
-            out.println("</html>");
         }
     }
 

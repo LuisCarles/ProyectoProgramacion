@@ -22,6 +22,8 @@ public class MetodosSQL {
     private PreparedStatement sentenciaPreparada;
     private ResultSet resultado;
     private int tamano = tamanoCatalogo()+1;
+    private int tamanoUsuarios = tamanoUsuarios();
+    private int tamanoTransaccion = tamanoTransacciones();
     
     public boolean registrarProducto(InputStream is, String nombre, double precio){
          boolean registro = false;
@@ -30,7 +32,7 @@ public class MetodosSQL {
             conexion = Conexion.conectar();
             String consulta = "INSERT INTO catagolo (id,nombre,fecha,precio,imagen) VALUES (?,?,?,?,?)";
             sentenciaPreparada = conexion.prepareStatement(consulta);
-           System.out.println("HOLAAAAAAAAAAAAA"+ precio);
+            System.out.println("HOLAAAAAAAAAAAAA"+ precio);
             sentenciaPreparada.setInt(1, tamano);
             sentenciaPreparada.setString(2, nombre);
              sentenciaPreparada.setDate(3, java.sql.Date.valueOf(java.time.LocalDate.now()));
@@ -171,6 +173,66 @@ public class MetodosSQL {
         
         return connect;
     }
+    
+    public int tamanoUsuarios(){
+       int usuarioLenght = 0;
+       try {
+            conexion = Conexion.conectar();
+            String consulta = "SELECT COUNT(id) as UsuarioTotal FROM usuarios";
+            sentenciaPreparada = conexion.prepareStatement(consulta);
+            resultado =  sentenciaPreparada.executeQuery();
+            if(resultado.next()){// El TAMAÑO fue encontrado y obtenemos el nombre 
+                usuarioLenght = resultado.getInt("UsuarioTotal");
+                 System.out.println(usuarioLenght+" USUARIO");
+                
+            }else{
+                usuarioLenght = 0; 
+            }
+            conexion.close();
+        } catch (SQLException e) {
+            System.out.println("Error: " +e);
+        }finally{
+            try {
+                conexion.close();
+            } catch (SQLException e) {
+                System.out.println("Error" + e);
+            }
+        }
+        
+        
+        return usuarioLenght;
+    
+    }
+    
+    public int tamanoTransacciones(){
+       int transaccionLenght = 0;
+       try {
+            conexion = Conexion.conectar();
+            String consulta = "SELECT COUNT(id) as ProductoTotal FROM transacciones";
+            sentenciaPreparada = conexion.prepareStatement(consulta);
+            resultado =  sentenciaPreparada.executeQuery();
+            if(resultado.next()){// El TAMAÑO fue encontrado y obtenemos el nombre 
+                transaccionLenght = resultado.getInt("ProductoTotal");
+                
+            }else{
+                transaccionLenght = 0; 
+            }
+            conexion.close();
+        } catch (SQLException e) {
+            System.out.println("Error: " +e);
+        }finally{
+            try {
+                conexion.close();
+            } catch (SQLException e) {
+                System.out.println("Error" + e);
+            }
+        }
+        
+        
+        return transaccionLenght;
+    
+    }
+    
      public int tamanoCatalogo(){
        int catalogoLenght = 0;
        try {
@@ -267,20 +329,61 @@ public class MetodosSQL {
     
     }
     
-    
-    
-    public boolean registrarUsuario(String id, String nombre, String apellidos, String contrasena, String usuarioGenerado) {
+     public boolean registrarTransaccion(int usuarioID, String productID) {
         boolean registro = false;
 
         try {
             conexion = Conexion.conectar();
-            String consulta = "INSERT INTO usuarios (id,nombre,apellidos,contrasena,usuario_generado) VALUES (?,?,?,?,?)";
+            String consulta = "INSERT INTO usuarios (id,usuarioID,fecha,productID) VALUES (?,?,?,?)";
             sentenciaPreparada = conexion.prepareStatement(consulta);
-            sentenciaPreparada.setString(1, id);
+             System.out.println(tamanoUsuarios);
+            sentenciaPreparada.setInt(1, tamanoTransaccion);
+            sentenciaPreparada.setInt(2, usuarioID);
+            sentenciaPreparada.setDate(3, java.sql.Date.valueOf(java.time.LocalDate.now()));
+            sentenciaPreparada.setString(4, productID);
+            
+
+            int resultadoInsercion = sentenciaPreparada.executeUpdate();
+
+            if (resultadoInsercion > 0) {
+                registro = true; // EL usuario se ah registrado
+                System.out.println("Se hizo el alta de la transaccion");
+            } else {
+                registro = false; // EL usuario NO se ah registrado
+                System.out.println("NO se hizo el alta de la transaccion");
+            }
+
+            conexion.close();
+        } catch (SQLException e) {
+            System.out.println("Error: " + e);
+        } finally {
+            try {
+                conexion.close();
+            } catch (SQLException e) {
+                System.out.println("Error: " + e);
+            }
+        }
+
+        System.out.println("Valor del registro: " + registro);
+        return registro;
+    }
+    
+    
+    
+    public boolean registrarUsuario(String nombre, String apellidos, String contrasena, String usuarioGenerado) {
+        boolean registro = false;
+
+        try {
+            conexion = Conexion.conectar();
+            String consulta = "INSERT INTO usuarios (id,nombre,apellidos,contrasena,usuario_generado, dinero) VALUES (?,?,?,?,?,?)";
+            sentenciaPreparada = conexion.prepareStatement(consulta);
+             System.out.println(tamanoUsuarios);
+            sentenciaPreparada.setInt(1, tamanoUsuarios);
             sentenciaPreparada.setString(2, nombre);
             sentenciaPreparada.setString(3, apellidos);
             sentenciaPreparada.setString(4, contrasena);
             sentenciaPreparada.setString(5, usuarioGenerado);
+            sentenciaPreparada.setDouble(6, (double) 500);
 
             int resultadoInsercion = sentenciaPreparada.executeUpdate();
 
@@ -307,13 +410,13 @@ public class MetodosSQL {
         return registro;
     }
 
-    public boolean buscarUsuarioRepetidoBD(String id) {
+    public boolean buscarUsuarioRepetido(String correo) {
         boolean usuarioRepetido = false;
         try {
             conexion = Conexion.conectar();
-            String consulta = "SELECT id FROM usuarios WHERE id = ?";
+            String consulta = "SELECT usuario_generado FROM usuarios WHERE usuario_generado = ?";
             sentenciaPreparada = conexion.prepareStatement(consulta);
-            sentenciaPreparada.setString(1, id);
+            sentenciaPreparada.setString(1, correo);
             resultado = sentenciaPreparada.executeQuery();
 
             if (resultado.next()) {
@@ -347,6 +450,8 @@ public class MetodosSQL {
             sentenciaPreparada.setString(1, usuario);
             sentenciaPreparada.setString(2, contrasena);
             resultado = sentenciaPreparada.executeQuery();
+            System.out.println("usuario: " + usuario);
+            System.out.println("contraseña: " + contrasena);
             if (resultado.next()) {
                 iniciarSesion = true;//El usuario puede iniciar Sesion por que esta registrado en la BD
             } else {
@@ -369,18 +474,18 @@ public class MetodosSQL {
 
     
     
-    public String buscarNombre(String usuario) {
-        String nombre = null;
+    public double buscarDinero(String usuario) {
+        double dinero = 0;
         try {
             conexion = Conexion.conectar();
-            String consulta = "SELECT nombre FROM usuarios WHERE usuario_generado = ?";
+            String consulta = "SELECT dinero FROM usuarios WHERE usuario_generado = ?";
             sentenciaPreparada = conexion.prepareStatement(consulta);
             sentenciaPreparada.setString(1, usuario);
             resultado =  sentenciaPreparada.executeQuery();
-            if(resultado.next()){// El usuario fue encontrado y obtenemos el nombre 
-                nombre = resultado.getString("nombre");
+            if(resultado.next()){
+                dinero = resultado.getDouble("dinero");
             }else{
-                nombre = null; //EL usuario no fue encontrado y NO obtenemos el nombre
+                dinero = 0; 
             }
             conexion.close();
         } catch (SQLException e) {
@@ -393,8 +498,36 @@ public class MetodosSQL {
             }
         }
         
-        System.out.println("El valor del nombre en los Metodos SQL es : "  + nombre);
-        return nombre;
+        System.out.println("El valor del nombre en los Metodos SQL es : "  + dinero);
+        return dinero;
+    }
+    
+     public int buscarUsuarioID(String usuario) {
+        int id = 0;
+        try {
+            conexion = Conexion.conectar();
+            String consulta = "SELECT id FROM usuarios WHERE usuario_generado = ?";
+            sentenciaPreparada = conexion.prepareStatement(consulta);
+            sentenciaPreparada.setString(1, usuario);
+            resultado =  sentenciaPreparada.executeQuery();
+            if(resultado.next()){
+                id = resultado.getInt("dinero");
+            }else{
+                id = 0; 
+            }
+            conexion.close();
+        } catch (SQLException e) {
+            System.out.println("Error: " +e);
+        }finally{
+            try {
+                conexion.close();
+            } catch (SQLException e) {
+                System.out.println("Error" + e);
+            }
+        }
+        
+        System.out.println("El valor del id en los Metodos SQL es : "  + id);
+        return id;
     }
     
     public byte[] getBlobAsBytes(ResultSet rs, String columnIndex) throws SQLException {
